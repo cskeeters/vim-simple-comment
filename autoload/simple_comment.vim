@@ -38,7 +38,7 @@ endfunction
 
 
 function! simple_comment#IsCommented(line)
-    if getline(a:line) =~ simple_comment#CommentChars()
+    if getline(a:line) =~ "^\s*".simple_comment#CommentChars()
         return 1
     else
         return 0
