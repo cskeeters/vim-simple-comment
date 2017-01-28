@@ -71,11 +71,11 @@ characters.
 
 The following mappings are suggested:
 
-    Comment the line the cursor is on. (normal-mode)
+    Toggle comment on the current line.
 >
         nmap <leader>c :ToggleComment<cr>
 <
-    Comment each line that is selected (visual-mode)
+    Comment each line that is selected.
 >
         vmap <leader>c <Plug>ToggleAllComment
 <
