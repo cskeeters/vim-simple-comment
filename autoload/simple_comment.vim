@@ -65,12 +65,21 @@ function! simple_comment#UnComment(...)
     execute l:line."normal! ^".len(simple_comment#CommentChars())."x"
 endfunction
 
+" This works for one line or multiple by typing a count before the mapping
+" 3<leader>c
 function! simple_comment#ToggleComment()
-    if simple_comment#IsCommented(".")
-        call simple_comment#UnComment()
-    else
-        call simple_comment#Comment()
-    endif
+    let isCommented=simple_comment#IsCommented(".")
+    let lineno=line(".")
+    let repeat=v:count1
+    while l:repeat > 0
+        if l:isCommented
+            call simple_comment#UnComment(l:lineno)
+        else
+            call simple_comment#Comment(l:lineno)
+        endif
+        let repeat-=1
+        let lineno+=1
+    endwhile
 endfunction
 
 function! simple_comment#MultiLineComment()

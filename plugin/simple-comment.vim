@@ -13,6 +13,10 @@ command! CommentHash call simple_comment#CommentHash()
 command! CommentMultiSlash call simple_comment#CommentMultiSlash()
 command! CommentMultiXml call simple_comment#CommentMultiXml()
 
+noremap <SID>ToggleComment  :<C-U>call simple_comment#ToggleComment()<CR>
+noremap <unique> <script> <Plug>ToggleComment  <SID>ToggleComment
+command! ToggleComment call simple_comment#ToggleComment()
+
 noremap <SID>ToggleAllComment  :<C-U>call simple_comment#ToggleAllComment()<CR>
 noremap <unique> <script> <Plug>ToggleAllComment  <SID>ToggleAllComment
 noremenu <script> Plugin.ToggleAllComment <SID>ToggleAllComment
@@ -20,8 +24,6 @@ noremenu <script> Plugin.ToggleAllComment <SID>ToggleAllComment
 noremap <SID>MultiLineComment  :<C-U>call simple_comment#MultiLineComment()<CR>
 noremap <unique> <script> <Plug>MultiLineComment  <SID>MultiLineComment
 noremenu <script> Plugin.MultiLineComment <SID>MultiLineComment
-
-command! ToggleComment call simple_comment#ToggleComment()
 
 let &cpo = s:cpo_save
 unlet s:cpo_save

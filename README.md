@@ -9,7 +9,7 @@ The following mappings are suggested:
 Toggle comment on the current line.
 
 ```vim
-nmap <leader>c :ToggleComment<cr>
+nmap <leader>c <Plug>ToggleComment
 ```
 
 Comment each line that is selected.
