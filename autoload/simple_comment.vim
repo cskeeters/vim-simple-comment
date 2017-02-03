@@ -35,10 +35,8 @@ function! simple_comment#CommentMultiXml()
     let b:comment_close_chars="-->"
 endfunction
 
-
-
 function! simple_comment#IsCommented(line)
-    if getline(a:line) =~ "^\s*".simple_comment#CommentChars()
+    if getline(a:line) =~ '^\s*'.simple_comment#CommentChars()
         return 1
     else
         return 0
@@ -65,6 +63,15 @@ function! simple_comment#UnComment(...)
     execute l:line."normal! ^".len(simple_comment#CommentChars())."x"
 endfunction
 
+" Convenience method for others
+function! simple_comment#CommentIf(isCommented, lineno)
+    if a:isCommented
+        call simple_comment#UnComment(a:lineno)
+    else
+        call simple_comment#Comment(a:lineno)
+    endif
+endfunction
+
 " This works for one line or multiple by typing a count before the mapping
 " 3<leader>c
 function! simple_comment#ToggleComment()
@@ -72,11 +79,7 @@ function! simple_comment#ToggleComment()
     let lineno=line(".")
     let repeat=v:count1
     while l:repeat > 0
-        if l:isCommented
-            call simple_comment#UnComment(l:lineno)
-        else
-            call simple_comment#Comment(l:lineno)
-        endif
+        call simple_comment#CommentIf(l:isCommented, l:lineno)
         let repeat-=1
         let lineno+=1
     endwhile
@@ -96,28 +99,34 @@ endfunction
 
 " This is like ToggleComment except when operating on a range of lines (from
 " visual mode, we want to double comment lines that are already commented
-" rather than uncomment those lines.
-function! simple_comment#ToggleAllComment()
-    let comment_chars=simple_comment#CommentChars()
-
-    let start=line("'<")
-    let end=line("'>")
-    let current=l:start
-
-    if simple_comment#IsCommented("'<")
-        while l:current <= l:end
-            call simple_comment#UnComment(l:current)
-            let current += 1
-        endwhile
+" rather than uncomment those lines.  Parameters make this opfunc compatible.
+function! simple_comment#ToggleAllComment(type)
+    echom a:type
+    if a:type == "V" " Invoked from Visual mode
+        let start=line("'<")
+        let end=line("'>")
+    elseif a:type == 'line' " Invoked via opfunc
+        let start=line("'[")
+        let end=line("']")
+    elseif a:type == 'char' " Invoked via opfunc
+        " We still only care about lines, not characters, but this way /
+        " (search) motions work.
+        let start=line("'[")
+        let end=line("']")
     else
-        while l:current <= l:end
-            " Don't comment line with only whitespace
-            if getline(l:current) !~ "^\s*$"
-                call simple_comment#Comment(l:current)
-            endif
-            let current += 1
-        endwhile
+        return
     endif
+
+    let isCommented=simple_comment#IsCommented(l:start)
+    let lineno=l:start
+
+    while l:lineno <= l:end
+        " Don't comment line with only whitespace
+        if isCommented || getline(l:lineno) !~ '^\s*$'
+            call simple_comment#CommentIf(l:isCommented, l:lineno)
+        endif
+        let lineno += 1
+    endwhile
 endfunction
 
 let &cpo = s:cpo_save

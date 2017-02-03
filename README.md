@@ -18,6 +18,12 @@ Comment each line that is selected.
 vmap <leader>c <Plug>ToggleAllComment
 ```
 
+Comment all lines included in motion (`:help map-operator`)
+
+```vim
+nmap <leader>C <Plug>CommentOperator
+```
+
 Insert a multi-line comment start before selected range and multi-line
 comment stop after the selected range.
 

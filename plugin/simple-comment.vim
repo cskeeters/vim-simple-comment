@@ -17,9 +17,12 @@ noremap <SID>ToggleComment  :<C-U>call simple_comment#ToggleComment()<CR>
 noremap <unique> <script> <Plug>ToggleComment  <SID>ToggleComment
 command! ToggleComment call simple_comment#ToggleComment()
 
-noremap <SID>ToggleAllComment  :<C-U>call simple_comment#ToggleAllComment()<CR>
+noremap <SID>ToggleAllComment  :<C-U>call simple_comment#ToggleAllComment(visualmode())<CR>
 noremap <unique> <script> <Plug>ToggleAllComment  <SID>ToggleAllComment
 noremenu <script> Plugin.ToggleAllComment <SID>ToggleAllComment
+
+noremap <SID>CommentOperator  :<C-U>set opfunc=simple_comment#ToggleAllComment<CR>g@
+noremap <unique> <script> <Plug>CommentOperator  <SID>CommentOperator
 
 noremap <SID>MultiLineComment  :<C-U>call simple_comment#MultiLineComment()<CR>
 noremap <unique> <script> <Plug>MultiLineComment  <SID>MultiLineComment

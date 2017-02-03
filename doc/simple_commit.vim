@@ -31,7 +31,8 @@ This plugin can perform the following functions.
 
     1. Toggle comment on single line................|simple-comment-single|
     2. Toggle comment on multiple lines.............|simple-comment-multi|
-    3. Wrap selected lines with multi-line comments.|simple-comment-wrap|
+    3. Toggle comment operator......................|simple-comment-operator|
+    4. Wrap selected lines with multi-line comments.|simple-comment-wrap|
 
 
 						*simple-comment-single*
@@ -41,6 +42,8 @@ commented.  If it is, it will uncomment it.  If the current line is not
 commented, it will comment it.  Since this plugin is mainly designed for line
 commenting, it does not detect if the current line is wrapped in /* */
 comments on other lines.
+
+<Plug>ToggleComment supports a count so `3<leader>c` can comment 3 lines.
 
 						*simple-comment-multi*
 
@@ -52,6 +55,13 @@ will comment each line skipping lines comprised only of whitespace.
 This function will add comment character(s) to lines that are already
 commented.  If the user uncomments the same range of lines, the lines that
 were orginally commented once, will still be commented.
+
+						*simple-comment-operator*
+
+For advanced users, you may want to `<leader>Cip` (comment in paragraph) or
+`<leader>Cfsearch<cr>` (comment til line that contains search).
+
+See |map-operator|
 
 						*simple-comment-wrap*
 
@@ -78,6 +88,10 @@ The following mappings are suggested:
     Comment each line that is selected.
 >
         vmap <leader>c <Plug>ToggleAllComment
+<
+    Comment all lines included in motion
+>
+        nmap <leader>C <Plug>CommentOperator
 <
     Insert a multi-line comment start before selected range and multi-line
     comment stop after the selected range.
