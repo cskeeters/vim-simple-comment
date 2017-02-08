@@ -2,15 +2,23 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 function! simple_comment#CommentChars()
-    return get(b:, 'comment_chars', '//')
+    return get(b:, 'comment_chars', matchstr(&commentstring, '.*\ze%s'))
 endfunction
 
 function! simple_comment#CommentOpenChars()
-    return get(b:, 'comment_open_chars', '/*')
+    let default="/*"
+    if &commentstring =~ '--'
+        let default="<!--"
+    endif
+    return get(b:, 'comment_open_chars', l:default)
 endfunction
 
 function! simple_comment#CommentCloseChars()
-    return get(b:, 'comment_close_chars', '*/')
+    let default="*/"
+    if &commentstring =~ '--'
+        let default="-->"
+    endif
+    return get(b:, 'comment_close_chars', l:default)
 endfunction
 
 
